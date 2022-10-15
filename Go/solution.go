@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"math"
 	"sort"
 )
 
@@ -138,4 +139,33 @@ func Q643FindMaxAverage(nums []int, k int) float64 {
 	}
 
 	return float64(ans) / float64(k)
+}
+
+func Q697FindShortestSubArray(nums []int) int {
+	ans := math.MaxInt
+	m := make(map[int][]int)
+	maxDegree := 0
+
+	// put duplicated elements and their index (elements as key and all the index as the value, as slice)
+	for i, v := range nums {
+		m[v] = append(m[v], i)
+	}
+
+	// count most one and calc the lens
+	for _, v := range nums {
+		tmpDegree := len(m[v])
+		l := len(nums[m[v][0] : (m[v][tmpDegree-1])+1])
+		if tmpDegree > maxDegree {
+			ans = l
+			maxDegree = tmpDegree
+		}
+
+		if tmpDegree == maxDegree {
+			if ans > l {
+				ans = l
+			}
+		}
+	}
+
+	return ans
 }

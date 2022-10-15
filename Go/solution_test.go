@@ -209,3 +209,29 @@ func TestQ643FindMaxAverage(t *testing.T) {
 	}
 
 }
+func TestQ697FindShortestSubArray(t *testing.T) {
+	type params struct {
+		Arg      []int
+		Expected int
+	}
+
+	datas := []params{
+		{
+			Arg:      StringToSliceType[int](`[1,2,2,3,1]`),
+			Expected: 2,
+		},
+		{
+			Arg:      StringToSliceType[int](`[1,2,2,3,1,4,2]`),
+			Expected: 6,
+		},
+		{
+			Arg:      StringToSliceType[int](`[1, 5, 2, 1, 5, 4, 5, 1]`),
+			Expected: 6,
+		},
+	}
+
+	for _, d := range datas {
+		assert.Equal(t, d.Expected, Q697FindShortestSubArray(d.Arg), d)
+	}
+
+}
