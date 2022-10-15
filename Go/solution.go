@@ -84,3 +84,58 @@ func Q938RangeSumOfBST(root *TreeNode, low int, high int) int {
 
 	return ans
 }
+
+func Q1281SubtractTheProductAndSumOfDigitsOfAnInteger(n int) int {
+	arr := []int{}
+
+	for n > 0 {
+		arr = append(arr, n%10)
+		n /= 10
+	}
+
+	pod := 1
+	sod := 0
+
+	for _, v := range arr {
+		pod *= v
+		sod += v
+	}
+
+	return pod - sod
+}
+
+func Q1295FindNumbers(nums []int) int {
+	ans := 0
+
+	for _, v := range nums {
+		d := 0
+		for v > 0 {
+			v /= 10
+			d++
+		}
+
+		if d%2 == 0 {
+			ans++
+		}
+	}
+
+	return ans
+}
+
+func Q643FindMaxAverage(nums []int, k int) float64 {
+	var ans, sum int
+
+	for i := 0; i < k; i++ {
+		sum += nums[i]
+	}
+	ans = sum
+
+	for j := k; j < len(nums); j++ {
+		sum += nums[j] - nums[j-k]
+		if sum > ans {
+			ans = sum
+		}
+	}
+
+	return float64(ans) / float64(k)
+}

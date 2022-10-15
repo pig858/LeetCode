@@ -133,3 +133,79 @@ func TestQ938RangeSumOfBST(t *testing.T) {
 	}
 
 }
+
+func TestQ1281SubtractTheProductAndSumOfDigitsOfAnInteger(t *testing.T) {
+	type params struct {
+		Arg      int
+		Expected int
+	}
+
+	datas := []params{
+		{
+			Arg:      234,
+			Expected: 15,
+		},
+		{
+			Arg:      4421,
+			Expected: 21,
+		},
+	}
+
+	for _, d := range datas {
+		assert.Equal(t, d.Expected, Q1281SubtractTheProductAndSumOfDigitsOfAnInteger(d.Arg), d)
+	}
+
+}
+
+func TestQ1295FindNumbers(t *testing.T) {
+	type params struct {
+		Arg      []int
+		Expected int
+	}
+
+	datas := []params{
+		{
+			Arg:      StringToSliceType[int](`[12,345,2,6,7896]`),
+			Expected: 2,
+		},
+		{
+			Arg:      StringToSliceType[int](`[555,901,482,1771]`),
+			Expected: 1,
+		},
+		{
+			Arg:      StringToSliceType[int](`[437,315,322,431,686,264,442]`),
+			Expected: 0,
+		},
+	}
+
+	for _, d := range datas {
+		assert.Equal(t, d.Expected, Q1295FindNumbers(d.Arg), d)
+	}
+
+}
+
+func TestQ643FindMaxAverage(t *testing.T) {
+	type params struct {
+		Arg      []int
+		Arg1     int
+		Expected float64
+	}
+
+	datas := []params{
+		{
+			Arg:      StringToSliceType[int](`[1,12,-5,-6,50,3]`),
+			Arg1:     4,
+			Expected: 12.75000,
+		},
+		{
+			Arg:      StringToSliceType[int](`[5]`),
+			Arg1:     1,
+			Expected: 5.00000,
+		},
+	}
+
+	for _, d := range datas {
+		assert.Equal(t, d.Expected, Q643FindMaxAverage(d.Arg, d.Arg1), d)
+	}
+
+}
