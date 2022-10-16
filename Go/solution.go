@@ -169,3 +169,46 @@ func Q697FindShortestSubArray(nums []int) int {
 
 	return ans
 }
+
+func Q2121GetDistances(arr []int) []int64 {
+	l := len(arr)
+
+	if l == 1 {
+		return []int64{0}
+	}
+
+	ans := make([]int64, l)
+	d := make(map[int][]int)
+	sum := make(map[int]int64)
+
+	for i, v := range arr {
+		tmp, ok := d[v]
+		if !ok {
+			tmp = []int{}
+		}
+		tmp = append(tmp, i)
+		d[v] = tmp
+		sum[v] += int64(i)
+	}
+
+	// for intervals
+	// [2,1,3,1,2,3,3] 3 => 2,5,6 => sum = 13
+	// index 2 => left = 0 right = sum - left - self => 13 - 0 - 2 = 11
+	// interval => right - left - (len(right) - len(left))*self => 11 - 0 - (2 - 0)*2 => 11 - 4 = 7
+	// index 5 => left = 2 right = 13 - 2 - 5 = 6
+	// interval => 6 - 2 - (1 - 1)*5 = 4
+	// index 6 => left = 7 right = 13 - 7 - 6 = 0
+	// interval => 0 - 7 - (0 - 2)*6 = 5
+	for n, indexs := range d {
+		var left int64 = 0
+		var right int64 = 0
+		for pos, index := range indexs {
+			right = sum[n] - left - int64(index)
+			ans[index] = right - left - int64((len(indexs)-pos-1)-(pos))*int64(index)
+			left += int64(index)
+		}
+	}
+
+	return ans
+
+}

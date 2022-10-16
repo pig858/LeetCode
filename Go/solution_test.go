@@ -235,3 +235,30 @@ func TestQ697FindShortestSubArray(t *testing.T) {
 	}
 
 }
+
+func TestQ2121GetDistances(t *testing.T) {
+	type params struct {
+		Arg      []int
+		Expected []int64
+	}
+
+	datas := []params{
+		{
+			Arg:      StringToSliceType[int](`[2,1,3,1,2,3,3]`),
+			Expected: StringToSliceType[int64](`[4,2,7,2,4,4,5]`),
+		},
+		{
+			Arg:      StringToSliceType[int](`[10,5,10,10]`),
+			Expected: StringToSliceType[int64](`[5,0,3,4]`),
+		},
+		{
+			Arg:      StringToSliceType[int](`[11266]`),
+			Expected: StringToSliceType[int64](`[0]`),
+		},
+	}
+
+	for _, d := range datas {
+		assert.Equal(t, d.Expected, Q2121GetDistances(d.Arg), d)
+	}
+
+}
