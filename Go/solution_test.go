@@ -262,3 +262,103 @@ func TestQ2121GetDistances(t *testing.T) {
 	}
 
 }
+
+func TestQ1009BitwiseComplement(t *testing.T) {
+	type params struct {
+		Arg      int
+		Expected int
+	}
+
+	datas := []params{
+		{
+			Arg:      5,
+			Expected: 2,
+		},
+		{
+			Arg:      7,
+			Expected: 0,
+		},
+		{
+			Arg:      10,
+			Expected: 5,
+		},
+	}
+
+	for _, d := range datas {
+		assert.Equal(t, d.Expected, Q1009BitwiseComplement(d.Arg), d)
+	}
+
+}
+
+func TestQ2206DivideArray(t *testing.T) {
+	type params struct {
+		Arg      []int
+		Expected bool
+	}
+
+	datas := []params{
+		{
+			Arg:      StringToSliceType[int](`[3,2,3,2,2,2]`),
+			Expected: true,
+		},
+		{
+			Arg:      StringToSliceType[int](`[1,2,3,4]`),
+			Expected: false,
+		},
+	}
+
+	for _, d := range datas {
+		assert.Equal(t, d.Expected, Q2206DivideArray(d.Arg), d)
+	}
+
+}
+
+func TestQ150EvalRPN(t *testing.T) {
+	type params struct {
+		Arg      []string
+		Expected int
+	}
+
+	datas := []params{
+		{
+			Arg:      StringToSliceType[string](`["2","1","+","3","*"]`),
+			Expected: 9,
+		},
+		{
+			Arg:      StringToSliceType[string](`["4","13","5","/","+"]`),
+			Expected: 6,
+		},
+	}
+
+	for _, d := range datas {
+		assert.Equal(t, d.Expected, Q150EvalRPN(d.Arg), d)
+	}
+
+}
+
+func TestQ59GenerateMatrix(t *testing.T) {
+	type params struct {
+		Arg      int
+		Expected [][]int
+	}
+
+	datas := []params{
+		// {
+		// 	Arg:      3,
+		// 	Expected: StringTo2DSliceType[int](`[[1,2,3],[8,9,4],[7,6,5]]`),
+		// },
+		// {
+		// 	Arg:      1,
+		// 	Expected: StringTo2DSliceType[int](`[[1]]`),
+		// },
+		{
+			Arg:      4,
+			Expected: StringTo2DSliceType[int](`[[1,2,3,4],[12,13,14,5],[11,16,15,6],[10,9,8,7]]`),
+		},
+	}
+
+	for _, d := range datas {
+		assert.Equal(t, d.Expected, Q59GenerateMatrix(d.Arg), d)
+	}
+
+}

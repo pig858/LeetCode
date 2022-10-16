@@ -21,6 +21,12 @@ func StringToSliceType[T interface{}](s string) []T {
 	return slice
 }
 
+func StringTo2DSliceType[T interface{}](s string) [][]T {
+	var slice [][]T
+	json.Unmarshal([]byte(s), &slice)
+	return slice
+}
+
 func StringToTreeNode(s string) *TreeNode {
 	slice := StringToSliceAny(s)
 	if len(slice) < 1 {

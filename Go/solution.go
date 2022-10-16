@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"math"
 	"sort"
+	"strconv"
 )
 
 func main() {
@@ -211,4 +212,139 @@ func Q2121GetDistances(arr []int) []int64 {
 
 	return ans
 
+}
+
+func Q1009BitwiseComplement(n int) int {
+	ans := 0
+
+	s := fmt.Sprintf("%b", n)
+	b := []byte(s)
+	tmp := []int{}
+
+	// reverse slice to let the binary number start at right instead of left
+	for i, j := 0, len(b)-1; i < j; i, j = i+1, j-1 {
+		b[i], b[j] = b[j], b[i]
+	}
+
+	for _, v := range b {
+		if v == byte('1') {
+			tmp = append(tmp, 0)
+			continue
+		}
+
+		tmp = append(tmp, 1)
+	}
+
+	for i, v := range tmp {
+		ans += v << i
+	}
+
+	return ans
+}
+
+func Q2206DivideArray(nums []int) bool {
+	l := len(nums)
+	pairs := l / 2
+
+	sum := make(map[int]int)
+
+	for _, v := range nums {
+		sum[v]++
+	}
+
+	for _, n := range sum {
+		// elements only appear odd times
+		if n%2 == 1 {
+			return false
+		}
+
+		// if pairs < 0 means not enough pair can be divided
+		pairs -= n / 2
+		if pairs < 0 {
+			return false
+		}
+	}
+
+	return true
+}
+
+func Q150EvalRPN(tokens []string) int {
+	calc := func(s string, n1 int, n2 int) int {
+		if s == "+" {
+			return n1 + n2
+		} else if s == "-" {
+			return n1 - n2
+		} else if s == "*" {
+			return n1 * n2
+		} else {
+			return int(n1 / n2)
+		}
+	}
+
+	d := []int{}
+
+	for _, v := range tokens {
+		if v == "+" || v == "-" || v == "*" || v == "/" {
+			res := calc(v, d[len(d)-2], d[len(d)-1])
+			d = d[:len(d)-2]
+			d = append(d, res)
+		} else {
+			v, _ := strconv.Atoi(v)
+			d = append(d, v)
+		}
+	}
+
+	return d[0]
+}
+
+func Q59GenerateMatrix(n int) [][]int {
+	if n == 1 {
+		return [][]int{{1}}
+	}
+
+	ans := make([][]int, n)
+	for i := range ans {
+		ans[i] = make([]int, n)
+	}
+
+	colStart := 0
+	colEnd := n - 1
+
+	rowStart := 0
+	rowEnd := n - 1
+
+	max := n * n
+
+	v := 1
+	for v <= max {
+		// left to right
+		for i := colStart; i <= max && i <= colEnd; i++ {
+			ans[colStart][i] = v
+			v++
+		}
+		rowStart++
+
+		// top to bottom
+		for i := rowStart; i <= max && i <= rowEnd; i++ {
+			ans[i][colEnd] = v
+			v++
+		}
+		colEnd--
+
+		// right to left
+		for i := colEnd; i <= max && i >= colStart; i-- {
+			ans[rowEnd][i] = v
+			v++
+		}
+		rowEnd--
+
+		// bottom to top
+		for i := rowEnd; i <= max && i >= rowStart; i-- {
+			ans[i][colStart] = v
+			v++
+		}
+		colStart++
+	}
+
+	return ans
 }
