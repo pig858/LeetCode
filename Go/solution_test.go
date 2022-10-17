@@ -362,3 +362,84 @@ func TestQ59GenerateMatrix(t *testing.T) {
 	}
 
 }
+
+func TestQ20IsValid(t *testing.T) {
+
+	type params struct {
+		Arg      string
+		Expected bool
+	}
+
+	datas := []params{
+		{
+			Arg:      "()",
+			Expected: true,
+		},
+		{
+			Arg:      "()[]{}",
+			Expected: true,
+		},
+		{
+			Arg:      "(]",
+			Expected: false,
+		},
+		{
+			Arg:      "([)]",
+			Expected: false,
+		},
+		{
+			Arg:      "{[]}",
+			Expected: true,
+		},
+	}
+
+	for _, d := range datas {
+		assert.Equal(t, d.Expected, Q20IsValid(d.Arg), d)
+	}
+}
+
+func TestQ1290GetDecimalValue(t *testing.T) {
+
+	type params struct {
+		Arg      *ListNode
+		Expected int
+	}
+
+	datas := []params{
+		{
+			Arg:      StringToListNode(`[1,0,1]`),
+			Expected: 5,
+		},
+		{
+			Arg:      StringToListNode(`[0]`),
+			Expected: 0,
+		},
+	}
+
+	for _, d := range datas {
+		assert.Equal(t, d.Expected, Q1290GetDecimalValue(d.Arg), d)
+	}
+}
+
+func TestQ1832CheckIfPangram(t *testing.T) {
+
+	type params struct {
+		Arg      string
+		Expected bool
+	}
+
+	datas := []params{
+		{
+			Arg:      "thequickbrownfoxjumpsoverthelazydog",
+			Expected: true,
+		},
+		{
+			Arg:      "leetcode",
+			Expected: false,
+		},
+	}
+
+	for _, d := range datas {
+		assert.Equal(t, d.Expected, Q1832CheckIfPangram(d.Arg), d)
+	}
+}

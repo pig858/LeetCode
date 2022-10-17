@@ -8,6 +8,11 @@ type TreeNode struct {
 	Right *TreeNode
 }
 
+type ListNode struct {
+	Val  int
+	Next *ListNode
+}
+
 func StringToSliceAny(s string) []interface{} {
 	var slice []interface{}
 	json.Unmarshal([]byte(s), &slice)
@@ -60,4 +65,37 @@ func StringToTreeNode(s string) *TreeNode {
 	}
 
 	return tree[0]
+}
+
+func StringToListNode(s string) *ListNode {
+	slice := StringToSliceAny(s)
+	if len(slice) < 1 {
+		return nil
+	}
+	list := make([]*ListNode, 0)
+
+	for _, v := range slice {
+
+		if v == nil {
+			list = append(list, nil)
+			continue
+		}
+
+		node := &ListNode{
+			Val:  int(v.(float64)),
+			Next: nil,
+		}
+
+		list = append(list, node)
+	}
+
+	l := len(list)
+	for index := range list {
+		if index < l-1 {
+			list[index].Next = list[index+1]
+		}
+
+	}
+
+	return list[0]
 }

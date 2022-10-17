@@ -348,3 +348,95 @@ func Q59GenerateMatrix(n int) [][]int {
 
 	return ans
 }
+
+func Q20IsValid(s string) bool {
+
+	l := len(s)
+
+	if l == 1 {
+		return false
+	}
+
+	ans := true
+	b := []byte(s)
+	m := make(map[string]int)
+	// pb => parentheses brackets => (
+	// sb => square brackets => [
+	// cb => curly brackets => {
+	m["pb"] = 0
+	m["sb"] = 0
+	m["cb"] = 0
+	// f is a queue for which open brackets it is
+	f := []string{}
+	openBracket := 0
+
+	for _, v := range b {
+
+		switch string(v) {
+		case "(":
+			m["pb"]++
+			f = append(f, "pb")
+			openBracket++
+		case ")":
+			if openBracket == 0 || f[len(f)-1] != "pb" || m["pb"] == 0 {
+				return false
+			}
+			m["pb"]--
+			f = f[:len(f)-1]
+			openBracket--
+		case "[":
+			m["sb"]++
+			f = append(f, "sb")
+			openBracket++
+		case "]":
+			if openBracket == 0 || f[len(f)-1] != "sb" || m["sb"] == 0 {
+				return false
+			}
+			m["sb"]--
+			f = f[:len(f)-1]
+			openBracket--
+		case "{":
+			m["cb"]++
+			f = append(f, "cb")
+			openBracket++
+		case "}":
+			if openBracket == 0 || f[len(f)-1] != "cb" || m["cb"] == 0 {
+				return false
+			}
+			m["cb"]--
+			f = f[:len(f)-1]
+			openBracket--
+		}
+	}
+
+	if len(f) != 0 {
+		return false
+	}
+
+	return ans
+}
+
+func Q1290GetDecimalValue(head *ListNode) int {
+
+	ans := 0
+
+	for head != nil {
+		ans = ans*2 + head.Val
+		head = head.Next
+	}
+
+	return ans
+}
+
+func Q1832CheckIfPangram(sentence string) bool {
+
+	m := make(map[string]int)
+	b := []byte(sentence)
+
+	for _, v := range b {
+		s := string(v)
+		m[s]++
+	}
+
+	return len(m) == 26
+}
