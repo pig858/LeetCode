@@ -443,3 +443,44 @@ func TestQ1832CheckIfPangram(t *testing.T) {
 		assert.Equal(t, d.Expected, Q1832CheckIfPangram(d.Arg), d)
 	}
 }
+
+func TestQ21MergeTwoLists(t *testing.T) {
+
+	type params struct {
+		Arg      *ListNode
+		Arg1     *ListNode
+		Expected *ListNode
+	}
+
+	datas := []params{
+		{
+			Arg:      StringToListNode(`[1,2,4]`),
+			Arg1:     StringToListNode(`[1,3,4]`),
+			Expected: StringToListNode(`[1,1,2,3,4,4]`),
+		},
+		{
+			Arg:      StringToListNode(`[]`),
+			Arg1:     StringToListNode(`[]`),
+			Expected: StringToListNode(`[]`),
+		},
+		{
+			Arg:      StringToListNode(`[]`),
+			Arg1:     StringToListNode(`[0]`),
+			Expected: StringToListNode(`[0]`),
+		},
+		{
+			Arg:      StringToListNode(`[2]`),
+			Arg1:     StringToListNode(`[1]`),
+			Expected: StringToListNode(`[1,2]`),
+		},
+		{
+			Arg:      StringToListNode(`[5]`),
+			Arg1:     StringToListNode(`[1,2,4]`),
+			Expected: StringToListNode(`[1,2,4,5]`),
+		},
+	}
+
+	for _, d := range datas {
+		assert.Equal(t, d.Expected, Q21MergeTwoLists(d.Arg, d.Arg1), d)
+	}
+}

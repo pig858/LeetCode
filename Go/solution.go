@@ -440,3 +440,45 @@ func Q1832CheckIfPangram(sentence string) bool {
 
 	return len(m) == 26
 }
+
+func Q21MergeTwoLists(list1 *ListNode, list2 *ListNode) *ListNode {
+	if list1 == nil {
+		return list2
+	}
+
+	if list2 == nil {
+		return list1
+	}
+
+	t := &ListNode{}
+	ans := t
+
+	for list1 != nil {
+		if list2 == nil {
+			t.Next = list1
+			list1 = list1.Next
+			t = t.Next
+			continue
+		}
+
+		if list1.Val > list2.Val {
+			t.Next = list2
+			list2 = list2.Next
+			t = t.Next
+		} else {
+			t.Next = list1
+			list1 = list1.Next
+			t = t.Next
+		}
+
+	}
+
+	for list2 != nil {
+		t.Next = list2
+		list2 = list2.Next
+		t = t.Next
+
+	}
+
+	return ans.Next
+}
