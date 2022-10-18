@@ -484,3 +484,65 @@ func TestQ21MergeTwoLists(t *testing.T) {
 		assert.Equal(t, d.Expected, Q21MergeTwoLists(d.Arg, d.Arg1), d)
 	}
 }
+
+func TestQ38CountAndSay(t *testing.T) {
+
+	type params struct {
+		Arg      int
+		Expected string
+	}
+
+	datas := []params{
+		{
+			Arg:      1,
+			Expected: "1",
+		},
+		{
+			Arg:      2,
+			Expected: "11",
+		},
+		{
+			Arg:      3,
+			Expected: "21",
+		},
+		{
+			Arg:      4,
+			Expected: "1211",
+		},
+	}
+
+	for _, d := range datas {
+		assert.Equal(t, d.Expected, Q38CountAndSay(d.Arg), d)
+	}
+}
+
+func TestQ2AddTwoNumbers(t *testing.T) {
+
+	type params struct {
+		Arg      *ListNode
+		Arg1     *ListNode
+		Expected *ListNode
+	}
+
+	datas := []params{
+		// {
+		// 	Arg:      StringToListNode(`[2,4,3]`),
+		// 	Arg1:     StringToListNode(`[5,6,4]`),
+		// 	Expected: StringToListNode(`[7,0,8]`),
+		// },
+		// {
+		// 	Arg:      StringToListNode(`[0]`),
+		// 	Arg1:     StringToListNode(`[0]`),
+		// 	Expected: StringToListNode(`[0]`),
+		// },
+		{
+			Arg:      StringToListNode(`[9,9,9,9,9,9,9]`),
+			Arg1:     StringToListNode(`[9,9,9,9]`),
+			Expected: StringToListNode(`[8,9,9,9,0,0,0,1]`),
+		},
+	}
+
+	for _, d := range datas {
+		assert.Equal(t, d.Expected, Q2AddTwoNumbers(d.Arg, d.Arg1), d)
+	}
+}

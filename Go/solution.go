@@ -1,10 +1,12 @@
 package main
 
 import (
+	"bytes"
 	"fmt"
 	"math"
 	"sort"
 	"strconv"
+	"strings"
 )
 
 func main() {
@@ -478,6 +480,123 @@ func Q21MergeTwoLists(list1 *ListNode, list2 *ListNode) *ListNode {
 		list2 = list2.Next
 		t = t.Next
 
+	}
+
+	return ans.Next
+}
+
+func Q38CountAndSay(n int) string {
+	if n == 1 {
+		return "1"
+	}
+
+	s := Q38CountAndSay(n - 1)
+
+	m := []string{}
+	c := 0
+	pre := ""
+	b := []byte(s)
+
+	for _, v := range b {
+		if pre == "" {
+			pre = string(v)
+			c++
+			continue
+		}
+
+		if pre != string(v) {
+			var tmp bytes.Buffer
+			tmp.WriteString(strconv.FormatInt(int64(c), 10))
+			tmp.WriteString(pre)
+			m = append(m, tmp.String())
+			c = 1
+			pre = string(v)
+			continue
+		}
+
+		c++
+
+	}
+
+	var tmp bytes.Buffer
+	tmp.WriteString(strconv.FormatInt(int64(c), 10))
+	tmp.WriteString(pre)
+	m = append(m, tmp.String())
+
+	return strings.Join(m, "")
+}
+
+func Q2AddTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
+
+	t := &ListNode{}
+	ans := t
+	// c for carry res >= 10 will be 1
+	c := 0
+	res := 0
+
+	for l1 != nil {
+		if l2 == nil {
+			res = l1.Val + c
+			c = 0
+			if res >= 10 {
+				res -= 10
+				c = 1
+			}
+			node := &ListNode{
+				Val:  res,
+				Next: nil,
+			}
+
+			t.Next = node
+			t = t.Next
+			l1 = l1.Next
+
+			continue
+		}
+
+		res = l1.Val + l2.Val + c
+		c = 0
+		if res >= 10 {
+			res -= 10
+			c = 1
+		}
+
+		node := &ListNode{
+			Val:  res,
+			Next: nil,
+		}
+
+		t.Next = node
+		t = t.Next
+		l1 = l1.Next
+		l2 = l2.Next
+
+	}
+
+	for l2 != nil {
+		res = l2.Val + c
+		c = 0
+		if res >= 10 {
+			res -= 10
+			c = 1
+		}
+
+		node := &ListNode{
+			Val:  res,
+			Next: nil,
+		}
+
+		t.Next = node
+		t = t.Next
+		l2 = l2.Next
+	}
+
+	if c == 1 {
+		node := &ListNode{
+			Val:  1,
+			Next: nil,
+		}
+		t.Next = node
 	}
 
 	return ans.Next
