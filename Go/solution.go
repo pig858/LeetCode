@@ -601,3 +601,52 @@ func Q2AddTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
 
 	return ans.Next
 }
+
+func Q692TopKFrequent(words []string, k int) []string {
+
+	if len(words) == 1 {
+		return words
+	}
+
+	// w for the word
+	// t for the times
+	type data struct {
+		w string
+		t int
+	}
+
+	m := make(map[string]int)
+
+	for _, v := range words {
+		m[v]++
+	}
+
+	var d []data
+
+	for s, t := range m {
+		d = append(d, data{
+			w: s,
+			t: t,
+		})
+	}
+
+	sort.Slice(d, func(i int, j int) bool {
+		// if two word appear same times
+		// return the word by lexicographical order
+		if d[i].t == d[j].t {
+			return d[i].w < d[j].w
+		}
+
+		// return the higher frequency
+		return d[i].t > d[j].t
+	})
+
+	ans := make([]string, k)
+	i := 0
+	for i < k {
+		ans[i] = d[i].w
+		i++
+	}
+
+	return ans
+}

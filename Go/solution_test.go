@@ -546,3 +546,29 @@ func TestQ2AddTwoNumbers(t *testing.T) {
 		assert.Equal(t, d.Expected, Q2AddTwoNumbers(d.Arg, d.Arg1), d)
 	}
 }
+
+func TestQ692TopKFrequent(t *testing.T) {
+
+	type params struct {
+		Arg      []string
+		Arg1     int
+		Expected []string
+	}
+
+	datas := []params{
+		{
+			Arg:      StringToSliceType[string](`["i","love","leetcode","i","love","coding"]`),
+			Arg1:     2,
+			Expected: StringToSliceType[string](`["i", "love"]`),
+		},
+		{
+			Arg:      StringToSliceType[string](`["the","day","is","sunny","the","the","the","sunny","is","is"]`),
+			Arg1:     4,
+			Expected: StringToSliceType[string](`["the","is","sunny","day"]`),
+		},
+	}
+
+	for _, d := range datas {
+		assert.Equal(t, d.Expected, Q692TopKFrequent(d.Arg, d.Arg1), d)
+	}
+}
