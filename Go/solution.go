@@ -650,3 +650,97 @@ func Q692TopKFrequent(words []string, k int) []string {
 
 	return ans
 }
+
+func Q12IntToRoman(num int) string {
+	var ans bytes.Buffer
+
+	n := [13]int{1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1}
+	r := [13]string{"M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I"}
+
+	i := 0
+	for i < 13 {
+		for num >= n[i] {
+			ans.WriteString(r[i])
+			num -= n[i]
+		}
+		i++
+	}
+
+	return ans.String()
+}
+
+func Q219ContainsNearbyDuplicate(nums []int, k int) bool {
+	m := make(map[int]int)
+
+	abs := func(i int, j int) int {
+		if (i - j) < 0 {
+			return -(i - j)
+		}
+
+		return (i - j)
+	}
+
+	for i := range nums {
+		j, ok := m[nums[i]]
+		if ok && abs(j, i) <= k {
+			return true
+		}
+
+		m[nums[i]] = i
+	}
+
+	return false
+}
+
+func Q76MinWindow(s string, t string) string {
+	left, right := 0, 0
+	start := 0
+	minLen := len(s) + 1
+
+	window := make(map[byte]int)
+	need := make(map[byte]int)
+	for i := range t {
+		need[t[i]]++
+	}
+
+	match := 0
+
+	for right < len(s) {
+		_, ok := need[s[right]]
+		if ok {
+			window[s[right]]++
+			if window[s[right]] == need[s[right]] {
+				match++
+			}
+		}
+		right++
+
+		for {
+			if match != len(need) {
+				break
+			}
+
+			if right-left < minLen {
+				start = left
+				minLen = right - left
+			}
+
+			_, ok := need[s[left]]
+			if ok {
+				window[s[left]]--
+				if window[s[left]] < need[s[left]] {
+					match--
+				}
+			}
+
+			left++
+		}
+	}
+
+	if minLen > len(s) {
+		return ""
+	} else {
+		res := []byte(s)[start : minLen+start]
+		return string(res)
+	}
+}

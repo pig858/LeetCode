@@ -572,3 +572,124 @@ func TestQ692TopKFrequent(t *testing.T) {
 		assert.Equal(t, d.Expected, Q692TopKFrequent(d.Arg, d.Arg1), d)
 	}
 }
+
+func TestQ12IntToRoman(t *testing.T) {
+	type params struct {
+		Arg      int
+		Expected string
+	}
+
+	datas := []params{
+		{
+			Arg:      3,
+			Expected: "III",
+		},
+		{
+			Arg:      58,
+			Expected: "LVIII",
+		},
+		{
+			Arg:      1994,
+			Expected: "MCMXCIV",
+		},
+	}
+
+	for _, d := range datas {
+		assert.Equal(t, d.Expected, Q12IntToRoman(d.Arg), d)
+	}
+}
+
+func TestQ219ContainsNearbyBuplicate(t *testing.T) {
+	type params struct {
+		Arg      []int
+		Arg1     int
+		Expected bool
+	}
+
+	datas := []params{
+		{
+			Arg:      StringToSliceType[int](`[1,2,3,1]`),
+			Arg1:     3,
+			Expected: true,
+		},
+		{
+			Arg:      StringToSliceType[int](`[1,0,1,1]`),
+			Arg1:     1,
+			Expected: true,
+		},
+		{
+			Arg:      StringToSliceType[int](`[1,2,3,1,2,3]`),
+			Arg1:     2,
+			Expected: false,
+		},
+	}
+
+	for _, d := range datas {
+		assert.Equal(t, d.Expected, Q219ContainsNearbyDuplicate(d.Arg, d.Arg1), d)
+	}
+}
+
+func TestQ76MinWindow(t *testing.T) {
+	type params struct {
+		Arg      string
+		Arg1     string
+		Expected string
+	}
+
+	datas := []params{
+		{
+			Arg:      "ADOBECODEBANC",
+			Arg1:     "ABC",
+			Expected: "BANC",
+		},
+		{
+			Arg:      "a",
+			Arg1:     "a",
+			Expected: "a",
+		},
+		{
+			Arg:      "a",
+			Arg1:     "aa",
+			Expected: "",
+		},
+		{
+			Arg:      "ab",
+			Arg1:     "a",
+			Expected: "a",
+		},
+		{
+			Arg:      "ab",
+			Arg1:     "b",
+			Expected: "b",
+		},
+		{
+			Arg:      "abc",
+			Arg1:     "b",
+			Expected: "b",
+		},
+		{
+			Arg:      "bba",
+			Arg1:     "ab",
+			Expected: "ba",
+		},
+		{
+			Arg:      "bbaa",
+			Arg1:     "aba",
+			Expected: "baa",
+		},
+		{
+			Arg:      "abcabdebac",
+			Arg1:     "cea",
+			Expected: "ebac",
+		},
+		{
+			Arg:      "aBbaBBBBA",
+			Arg1:     "BBA",
+			Expected: "BBA",
+		},
+	}
+
+	for _, d := range datas {
+		assert.Equal(t, d.Expected, Q76MinWindow(d.Arg, d.Arg1), d)
+	}
+}
