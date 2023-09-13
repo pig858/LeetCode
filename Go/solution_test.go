@@ -693,3 +693,117 @@ func TestQ76MinWindow(t *testing.T) {
 		assert.Equal(t, d.Expected, Q76MinWindow(d.Arg, d.Arg1), d)
 	}
 }
+
+func TestCountInt(t *testing.T) {
+	type params struct {
+		Arg      int
+		Expected string
+	}
+
+	datas := []params{
+		{
+			Arg:      10,
+			Expected: "1 2 fizz 4 buzz fizz 7 8 fizz buzz",
+		},
+		{
+			Arg:      15,
+			Expected: "1 2 fizz 4 buzz fizz 7 8 fizz buzz 11 fizz 13 14 fizzbuzz",
+		},
+	}
+
+	for _, d := range datas {
+		assert.Equal(t, d.Expected, CountInt(d.Arg), d)
+	}
+}
+
+func TestHelloworld(t *testing.T) {
+	type params struct {
+		Expected string
+	}
+
+	datas := []params{
+		{
+			Expected: "hello world",
+		},
+	}
+
+	for _, d := range datas {
+		assert.Equal(t, d.Expected, Helloworld(), d)
+	}
+}
+
+func TestSort(t *testing.T) {
+	type params struct {
+		Arg      []int
+		Expected string
+	}
+
+	datas := []params{
+		{
+			Arg:      StringToSliceType[int](`[2,1]`),
+			Expected: "1 2",
+		},
+		{
+			Arg:      StringToSliceType[int](`[2,1,5,7,3,1,3,6,9,4]`),
+			Expected: "1 1 2 3 3 4 5 6 7 9",
+		},
+	}
+
+	for _, d := range datas {
+		assert.Equal(t, d.Expected, Sort(d.Arg), d)
+	}
+}
+
+func TestCard(t *testing.T) {
+	type params struct {
+		Arg      []int
+		Expected int
+	}
+
+	datas := []params{
+		{
+			Arg:      []int{0x10a, 0x10b, 0x10c, 0x10d, 0x10e},
+			Expected: 1,
+		},
+		{
+			Arg:      []int{0x102, 0x103, 0x104, 0x105, 0x106},
+			Expected: 2,
+		},
+		{
+			Arg:      []int{0x102, 0x202, 0x301, 0x402, 0x402},
+			Expected: 3,
+		},
+		{
+			Arg:      []int{0x102, 0x202, 0x104, 0x204, 0x304},
+			Expected: 4,
+		},
+		{
+			Arg:      []int{0x102, 0x103, 0x108, 0x105, 0x106},
+			Expected: 5,
+		},
+		{
+			Arg:      []int{0x102, 0x203, 0x304, 0x405, 0x106},
+			Expected: 6,
+		},
+		{
+			Arg:      []int{0x102, 0x202, 0x104, 0x105, 0x302},
+			Expected: 7,
+		},
+		{
+			Arg:      []int{0x102, 0x202, 0x104, 0x106, 0x206},
+			Expected: 8,
+		},
+		{
+			Arg:      []int{0x102, 0x202, 0x104, 0x105, 0x106},
+			Expected: 9,
+		},
+		{
+			Arg:      []int{0x102, 0x103, 0x208, 0x305, 0x106},
+			Expected: 10,
+		},
+	}
+
+	for _, d := range datas {
+		assert.Equal(t, d.Expected, Card(d.Arg), d)
+	}
+}

@@ -744,3 +744,382 @@ func Q76MinWindow(s string, t string) string {
 		return string(res)
 	}
 }
+
+// 正整數 輸出 字串
+// 從1開始到n 輸出
+// 3或3的倍數 改輸出fizz
+// 5或5的倍數 改輸出buzz
+// 15的話 fizzbuzz
+// n = 10 => 1 2 3 4 5 6 7 8 9 10
+// 數字間用空白隔開
+func CountInt(n int) string {
+	var ans bytes.Buffer
+
+	for i := 1; i <= n; i++ {
+
+		if i%3 == 0 || i%5 == 0 {
+
+			if i%3 == 0 {
+				// 3或3的倍數指定的字串
+				ans.WriteString("fizz")
+			}
+
+			if i%5 == 0 {
+				// 5或5的倍數指定的字串
+				ans.WriteString("buzz")
+			}
+
+		} else {
+			// 將數字轉成字串並寫入
+			ans.WriteString(strconv.Itoa(i))
+		}
+
+		// 因數字間要用空白隔開 但跟n相同時不需要最後的那個空白
+		if i < n {
+			ans.WriteString(" ")
+		}
+	}
+
+	//輸出字串
+	return ans.String()
+}
+
+func Helloworld() string {
+	return "hello world"
+}
+
+func Sort(input []int) string {
+
+	sort.Ints(input)
+
+	ans := strings.Trim(fmt.Sprint(input), "[]")
+
+	return ans
+}
+
+func Card(input []int) int {
+
+	// 裝牌的
+	nums := make(map[int]int, len(input))
+	// 裝花色的
+	colors := make(map[int]int, len(input))
+
+	for _, v := range input {
+		n := (0x0FF & v)
+		nums[n]++
+
+		c := (0xF00 & v)
+		colors[c]++
+	}
+
+	num := len(nums)
+	color := len(colors)
+
+	if color > 1 {
+		switch num {
+
+		// 葫蘆 (4)或 金剛(3)
+		case 2:
+			for _, v := range nums {
+				if v == 4 {
+					return 3
+				}
+			}
+			return 4
+
+		// 3條(7) 或 兩對(8)
+		case 3:
+			for _, v := range nums {
+				if v == 3 {
+					return 7
+				}
+			}
+			return 8
+
+		// 一對(9)
+		case 4:
+			return 9
+		// 順子(6) 或 高牌(10)
+		case 5:
+			if isStraight(input) {
+				return 6
+			}
+			return 10
+		}
+
+	} else {
+		// 是順子就是同花順(2)/皇家同花順(1) 不然就是同花(5)
+		if !isStraight(input) {
+			return 5
+		}
+
+		return isRoyal(input)
+	}
+
+	// 皆非以上
+	return -1
+}
+
+func isStraight(card []int) bool {
+
+	nums := make([]int, 0, len(card))
+
+	for _, v := range card {
+		n := (0x0FF & v)
+		nums = append(nums, n)
+	}
+
+	straight := false
+
+	max := 0x002
+	min := 0x00e
+	sum := 0
+
+	for _, v := range nums {
+		if v > max {
+			max = v
+		}
+
+		if v < min {
+			min = v
+		}
+
+		sum += v
+	}
+
+	if max-min == 4 {
+		straight = true
+	}
+
+	// A 2 3 4 5
+	if max-min == 12 && sum == 28 {
+		straight = true
+	}
+
+	return straight
+}
+
+func isRoyal(card []int) int {
+	nums := make([]int, 0, len(card))
+
+	for _, v := range card {
+		n := (0x0FF & v)
+		nums = append(nums, n)
+	}
+
+	max := 0x002
+	min := 0x00e
+
+	for _, v := range nums {
+		if v > max {
+			max = v
+		}
+
+		if v < min {
+			min = v
+		}
+	}
+
+	if max == 0x00e {
+		return 1
+	}
+
+	return 2
+}
+
+func JokerCard(input []int) int {
+
+	// 裝牌的
+	nums := make(map[int]int, len(input))
+	// 裝花色的
+	colors := make(map[int]int, len(input))
+	// 鬼牌
+	//0x50f代表小王
+	//0x610代表大王
+	joker := 0
+
+	for _, v := range input {
+
+		if v == 0x50f || v == 0x610 {
+			joker++
+			continue
+		}
+
+		n := (0x0FF & v)
+		nums[n]++
+
+		c := (0xF00 & v)
+		colors[c]++
+	}
+
+	num := len(nums)
+	color := len(colors)
+
+	if color > 1 {
+		switch num {
+		// 順子(6) 或 高牌(10)
+		case 5:
+			if isJokerStraight(input) {
+				return 6
+			}
+			return 10
+		// 有可能是順子(4 + joker) 或 一對
+		case 4:
+			if isJokerStraight(input) {
+				return 6
+			}
+			return 9
+		// 0 鬼牌 2 2 3 3 3 三條
+		// 1 鬼牌 2 2 3 4 x 三條
+		// 2 鬼牌 2 3 4 x x 順子
+		// 3 張不一樣數字 + 最大2張鬼牌
+		// 3條 順子
+		case 3:
+			if isJokerStraight(input) {
+				return 6
+			}
+			return 7
+
+		// 0 鬼牌 2 2 3 3 3 葫蘆
+		// 1 鬼牌 2 2 3 3 x 葫蘆 / 2 2 2 3 x 金剛
+		// 2 鬼牌 2 3 4 x x 順子 / 2 2 3 x x 金剛 / 2 2 2 x x 金剛
+		case 2:
+			if isJokerStraight(input) {
+				return 6
+			}
+
+			for _, v := range nums {
+				if v+joker == 4 {
+					return 3
+				}
+			}
+
+			return 4
+		}
+	} else {
+		// 是順子就是同花順(2)/皇家同花順(1) 不然就是同花(5)
+		if !isJokerStraight(input) {
+			return 5
+		}
+
+		return isJokerRoyal(input)
+	}
+
+	// 皆非以上
+	return -1
+}
+
+func isJokerStraight(card []int) bool {
+
+	nums := make([]int, 0, len(card))
+	joker := 0
+	haveA := false
+
+	for _, v := range card {
+
+		if v == 0x50f || v == 0x610 {
+			joker++
+			continue
+		}
+
+		n := (0x0FF & v)
+
+		if n == 0x00e {
+			haveA = true
+		}
+
+		nums = append(nums, n)
+	}
+
+	straight := false
+
+	max := 0x002
+	min := 0x00e
+	noAmax := 0x002
+	noAmin := 0x00e
+	sum := 0
+
+	for _, v := range nums {
+		if v > max {
+			max = v
+		}
+
+		if v < min {
+			min = v
+		}
+
+		if haveA {
+			if v == 0x00e {
+				continue
+			}
+			if v > noAmax {
+				noAmax = v
+			}
+			if v < noAmin {
+				noAmin = v
+			}
+		}
+
+		sum += v
+	}
+
+	// 沒有鬼牌
+	if joker == 0 {
+		if max-min == 4 {
+			straight = true
+		}
+
+		// A 2 3 4 5
+		if max-min == 12 && sum == 28 {
+			straight = true
+		}
+
+		//有鬼牌
+	} else {
+
+		// 2 2 3 x x
+
+		// A 3 x 5 6
+		if haveA {
+			if noAmax-noAmin <= 3 {
+				straight = true
+			}
+
+		} else {
+
+			if max-min <= 4 {
+				straight = true
+			}
+		}
+	}
+
+	return straight
+}
+
+func isJokerRoyal(card []int) int {
+	nums := make([]int, 0, len(card))
+
+	for _, v := range card {
+		n := (0x0FF & v)
+		nums = append(nums, n)
+	}
+
+	max := 0x002
+	min := 0x00e
+
+	for _, v := range nums {
+		if v > max {
+			max = v
+		}
+
+		if v < min {
+			min = v
+		}
+	}
+
+	if max == 0x00e {
+		return 1
+	}
+
+	return 2
+}
