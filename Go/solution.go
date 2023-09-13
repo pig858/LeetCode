@@ -1012,6 +1012,7 @@ func JokerCard(input []int) int {
 func isJokerStraight(card []int) bool {
 
 	nums := make([]int, 0, len(card))
+	dump := make(map[int]int, len(card))
 	joker := 0
 	haveA := false
 
@@ -1029,14 +1030,18 @@ func isJokerStraight(card []int) bool {
 		}
 
 		nums = append(nums, n)
+		dump[n]++
 	}
 
-	straight := false
+	for _, v := range dump {
+		if v > 1 {
+			return false
+		}
+	}
 
 	max := 0x002
 	min := 0x00e
 	noAmax := 0x002
-	noAmin := 0x00e
 	sum := 0
 
 	for _, v := range nums {
@@ -1052,11 +1057,9 @@ func isJokerStraight(card []int) bool {
 			if v == 0x00e {
 				continue
 			}
+
 			if v > noAmax {
 				noAmax = v
-			}
-			if v < noAmin {
-				noAmin = v
 			}
 		}
 
@@ -1066,34 +1069,27 @@ func isJokerStraight(card []int) bool {
 	// 沒有鬼牌
 	if joker == 0 {
 		if max-min == 4 {
-			straight = true
+			return true
 		}
 
 		// A 2 3 4 5
 		if max-min == 12 && sum == 28 {
-			straight = true
+			return true
 		}
 
 		//有鬼牌
 	} else {
 
-		// 2 2 3 x x
+		if max-min <= 4 {
+			return true
+		}
 
-		// A 3 x 5 6
-		if haveA {
-			if noAmax-noAmin <= 3 {
-				straight = true
-			}
-
-		} else {
-
-			if max-min <= 4 {
-				straight = true
-			}
+		if haveA && noAmax <= 5 {
+			return true
 		}
 	}
 
-	return straight
+	return false
 }
 
 func isJokerRoyal(card []int) int {
